@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App;
+
+class Language
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        // if (request('language')) {
+        //     $language = request('language');
+        //     session()->put('language', $language);
+        // } elseif (session('language')) {
+        //     $language = session('language');
+        // }
+        // app()->setLocale($language);
+        // return $next($request);
+
+        $language = 'uz';
+        if (session()->has('locale')) {
+            App::setLocale(session()->get('locale'));
+        } else {
+            App::setLocale($language);
+        }
+
+        return $next($request);
+    }
+}
